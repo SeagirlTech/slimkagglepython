@@ -1,7 +1,5 @@
 FROM continuumio/anaconda3:latest
 
-ADD cache_keras_weights.py /usr/local/src/cache_keras_weights.py
-
     # Use a fixed apt-get repo to stop intermittent failures due to flaky httpredir connections,
     # as described by Lionel Chan at http://stackoverflow.com/a/37426929/5881346
 RUN sed -i "s/httpredir.debian.org/debian.uchicago.edu/" /etc/apt/sources.list && \
