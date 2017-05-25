@@ -87,7 +87,6 @@ RUN apt-get install -y libfreetype6-dev && \
     # chainer
     pip install chainer && \
 
-    cd /usr/local/src && python cache_keras_weights.py && \
     # clean up
     rm -rf /root/.cache/pip/* && \
     apt-get autoremove -y && apt-get clean && \
