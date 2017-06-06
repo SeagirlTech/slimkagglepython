@@ -203,19 +203,21 @@ RUN rm -rf /root/.cache/pip/* && \
 #     unzip h2o.zip && rm h2o.zip && cp h2o-*/h2o.jar . && \
 #     pip install `find . -name "*whl"` && \
 
+# Error on this section
     # Keras setup
     # Keras likes to add a config file in a custom directory when it's
     # first imported. This doesn't work with our read-only filesystem, so we
     # have it done now
-RUN python -c "from keras.models import Sequential"  && \
-    # Switch to TF backend
-    sed -i 's/theano/tensorflow/' /root/.keras/keras.json  && \
-    # Re-run it to flush any more disk writes
-    python -c "from keras.models import Sequential; from keras import backend; print(backend._BACKEND)" && \
-    # Keras reverts to /tmp from ~ when it detects a read-only file system
-    mkdir -p /tmp/.keras && cp /root/.keras/keras.json /tmp/.keras && \
+# RUN python -c "from keras.models import Sequential"  && \
+#     # Switch to TF backend
+#     sed -i 's/theano/tensorflow/' /root/.keras/keras.json  && \
+#     # Re-run it to flush any more disk writes
+#     python -c "from keras.models import Sequential; from keras import backend; print(backend._BACKEND)" && \
+#     # Keras reverts to /tmp from ~ when it detects a read-only file system
+#     mkdir -p /tmp/.keras && cp /root/.keras/keras.json /tmp/.keras
+
     # Scikit-Learn nightly build
-    cd /usr/local/src && git clone https://github.com/scikit-learn/scikit-learn.git && \
+RUN cd /usr/local/src && git clone https://github.com/scikit-learn/scikit-learn.git && \
     cd scikit-learn && python setup.py build && python setup.py install && \
     # HDF5 support
     conda install h5py && \
@@ -240,9 +242,10 @@ RUN python -c "from keras.models import Sequential"  && \
     pip install line_profiler && \
     pip install orderedmultidict && \
     pip install smhasher && \
-    conda install -y -c bokeh datashader && \
+    conda install -y -c bokeh datashader
+	
     # Boruta (python implementation)
-    cd /usr/local/src && git clone https://github.com/danielhomola/boruta_py.git && \
+RUN cd /usr/local/src && git clone https://github.com/danielhomola/boruta_py.git && \
     cd boruta_py && python setup.py install && \
     cd /usr/local/src && git clone --recursive --depth 1 https://github.com/Microsoft/LightGBM && \
     cd LightGBM && mkdir build && cd build && cmake .. && make -j $(nproc) && \
@@ -266,6 +269,7 @@ RUN python -c "from keras.models import Sequential"  && \
     # of all non-final lines. Thanks!
     #
     ###########
+
 # RUN pip install --upgrade mpld3 && \
 #    pip install mplleaflet && \
 #     pip install gpxpy && \
