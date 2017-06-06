@@ -69,36 +69,42 @@ RUN apt-get -y install libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev l
     #xgboost
 RUN cd /usr/local/src && mkdir xgboost && cd xgboost && \
     git clone --depth 1 --recursive https://github.com/dmlc/xgboost.git && cd xgboost && \
-    make && cd python-package && python setup.py install && \
+    make && cd python-package && python setup.py install
+
     #lasagne
-    cd /usr/local/src && mkdir Lasagne && cd Lasagne && \
+RUN cd /usr/local/src && mkdir Lasagne && cd Lasagne && \
     git clone --depth 1 https://github.com/Lasagne/Lasagne.git && cd Lasagne && \
-    pip install -r requirements.txt && python setup.py install && \
+    pip install -r requirements.txt && python setup.py install
+
     #keras
-    cd /usr/local/src && mkdir keras && cd keras && \
+RUN cd /usr/local/src && mkdir keras && cd keras && \
     git clone --depth 1 https://github.com/fchollet/keras.git && \
     cd keras && python setup.py install && \
     #keras-rl
     cd /usr/local/src && mkdir keras-rl && cd keras-rl && \
     git clone --depth 1 https://github.com/matthiasplappert/keras-rl.git && \
-    cd keras-rl && python setup.py install && \
+    cd keras-rl && python setup.py install
+
     #neon
-    cd /usr/local/src && \
+RUN cd /usr/local/src && \
     git clone --depth 1 https://github.com/NervanaSystems/neon.git && \
-    cd neon && pip install -e . && \
+    cd neon && pip install -e .
+	
     #nolearn
-    cd /usr/local/src && mkdir nolearn && cd nolearn && \
+RUN cd /usr/local/src && mkdir nolearn && cd nolearn && \
     git clone --depth 1 https://github.com/dnouri/nolearn.git && cd nolearn && \
     echo "x" > README.rst && echo "x" > CHANGES.rst && \
-    python setup.py install && \
+    python setup.py install
+	
     # Dev branch of Theano
-    pip install git+git://github.com/Theano/Theano.git --upgrade --no-deps && \
+RUN pip install git+git://github.com/Theano/Theano.git --upgrade --no-deps && \
     # put theano compiledir inside /tmp (it needs to be in writable dir)
     printf "[global]\nbase_compiledir = /tmp/.theano\n" > /.theanorc && \
     cd /usr/local/src &&  git clone --depth 1 https://github.com/pybrain/pybrain && \
-    cd pybrain && python setup.py install && \
+    cd pybrain && python setup.py install
+	
     # Base ATLAS plus tSNE
-    apt-get install -y libatlas-base-dev && \
+RUN apt-get install -y libatlas-base-dev && \
     # NOTE: we provide the tsne package, but sklearn.manifold.TSNE now does the same
     # job
     cd /usr/local/src && git clone --depth 1 https://github.com/danielfrg/tsne.git && \
@@ -106,9 +112,10 @@ RUN cd /usr/local/src && mkdir xgboost && cd xgboost && \
     cd /usr/local/src && git clone --depth 1 https://github.com/ztane/python-Levenshtein && \
     cd python-Levenshtein && python setup.py install && \
     cd /usr/local/src && git clone --depth 1 https://github.com/arogozhnikov/hep_ml.git && \
-    cd hep_ml && pip install .  && \
+    cd hep_ml && pip install .
+	
     # chainer
-    pip install chainer && \
+RUN pip install chainer
 #     # NLTK Project datasets
 #     mkdir -p /usr/share/nltk_data && \
 #     # NLTK Downloader no longer continues smoothly after an error, so we explicitly list
@@ -130,6 +137,7 @@ RUN cd /usr/local/src && mkdir xgboost && cd xgboost && \
 #     # Stop-words
 #     pip install stop-words && \
 #     cd /usr/local/src && python cache_keras_weights.py && \
+
     # clean up
 RUN rm -rf /root/.cache/pip/* && \
     apt-get autoremove -y && apt-get clean && \
