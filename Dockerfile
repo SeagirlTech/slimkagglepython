@@ -144,12 +144,12 @@ RUN rm -rf /root/.cache/pip/* && \
     rm -rf /usr/local/src/*
 
     # Install OpenCV-3 with Python support
-RUN apt-get update && \
-    # Anaconda's build of gcc is way out of date; monkey-patch some linking problems that affect
-    # packages like xgboost and Shapely
-    rm /opt/conda/lib/libstdc++* && rm /opt/conda/lib/libgomp.* && \
-    ln -s /usr/lib/x86_64-linux-gnu/libgomp.so.1 /opt/conda/lib/libgomp.so.1 && \
-    ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/lib/libstdc++.so.6 && \
+# RUN apt-get update && \
+#     # Anaconda's build of gcc is way out of date; monkey-patch some linking problems that affect
+#     # packages like xgboost and Shapely
+#     rm /opt/conda/lib/libstdc++* && rm /opt/conda/lib/libgomp.* && \
+#     ln -s /usr/lib/x86_64-linux-gnu/libgomp.so.1 /opt/conda/lib/libgomp.so.1 && \
+#     ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/lib/libstdc++.so.6 && \
 #     # Libgeos, for mapping libraries
 #     apt-get -y install libgeos-dev && \
 #     # pyshp and pyproj are now external dependencies of Basemap
@@ -202,6 +202,7 @@ RUN apt-get update && \
 #     wget --no-check-certificate -i latest -O h2o.zip && rm latest && \
 #     unzip h2o.zip && rm h2o.zip && cp h2o-*/h2o.jar . && \
 #     pip install `find . -name "*whl"` && \
+
     # Keras setup
     # Keras likes to add a config file in a custom directory when it's
     # first imported. This doesn't work with our read-only filesystem, so we
