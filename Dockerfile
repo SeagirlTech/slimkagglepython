@@ -248,20 +248,22 @@ RUN cd /usr/local/src && git clone https://github.com/scikit-learn-contrib/imbal
     pip install smhasher && \
     conda install -y -c bokeh datashader
 	
-    # Boruta (python implementation)
-RUN cd /usr/local/src && git clone https://github.com/danielhomola/boruta_py.git && \
-    cd boruta_py && python setup.py install && \
-    cd /usr/local/src && git clone --recursive --depth 1 https://github.com/Microsoft/LightGBM && \
-    cd LightGBM && mkdir build && cd build && cmake .. && make -j $(nproc) && \
-    cd /usr/local/src/LightGBM/python-package && python setup.py install && \
-    cd /usr/local/src && git clone git://github.com/nicolashennetier/pyeconometrics.git && \
-    cd pyeconometrics && python setup.py install && \
-    apt-get install -y graphviz && pip install graphviz && \
-    apt-get install -y libgdal1-dev && GDAL_CONFIG=/usr/bin/gdal-config pip install fiona && pip install geopandas && \
-    cd /usr/local/src && git clone git://github.com/scikit-learn-contrib/py-earth.git && \
-    cd py-earth && python setup.py install && \
+# Error code: 1 on this section	
+#    # Boruta (python implementation)
+# RUN cd /usr/local/src && git clone https://github.com/danielhomola/boruta_py.git && \
+#    cd boruta_py && python setup.py install && \
+#    cd /usr/local/src && git clone --recursive --depth 1 https://github.com/Microsoft/LightGBM && \
+#    cd LightGBM && mkdir build && cd build && cmake .. && make -j $(nproc) && \
+#    cd /usr/local/src/LightGBM/python-package && python setup.py install && \
+#    cd /usr/local/src && git clone git://github.com/nicolashennetier/pyeconometrics.git && \
+#    cd pyeconometrics && python setup.py install && \
+#    apt-get install -y graphviz && pip install graphviz && \
+#    apt-get install -y libgdal1-dev && GDAL_CONFIG=/usr/bin/gdal-config pip install fiona && pip install geopandas && \
+#    cd /usr/local/src && git clone git://github.com/scikit-learn-contrib/py-earth.git && \
+#    cd py-earth && python setup.py install && \
+
     # ~~~~ CLEAN UP ~~~~
-    rm -rf /root/.cache/pip/* && \
+RUN rm -rf /root/.cache/pip/* && \
     apt-get autoremove -y && apt-get clean && \
     conda clean -i -l -t -y && \
     rm -rf /usr/local/src/*
