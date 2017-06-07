@@ -218,21 +218,25 @@ RUN rm -rf /root/.cache/pip/* && \
 
     # Scikit-Learn nightly build
 RUN cd /usr/local/src && git clone https://github.com/scikit-learn/scikit-learn.git && \
-    cd scikit-learn && python setup.py build && python setup.py install && \
+    cd scikit-learn && python setup.py build && python setup.py install
+	
     # HDF5 support
-    conda install h5py && \
+RUN conda install h5py
+
     # https://github.com/biopython/biopython
-    pip install biopython && \
-    # Regularized Greedy Forests
-    cd /usr/local/src && wget https://github.com/fukatani/rgf_python/releases/download/0.2.0/rgf1.2.zip && \
-    unzip rgf1.2.zip && cd rgf1.2 && make && mv bin/rgf /usr/local/bin && \
-    cd /usr/local/src && git clone https://github.com/fukatani/rgf_python.git && \
-    cd rgf_python && sed -i 's/\/opt\/rgf1.2\/bin\/rgf/\/usr\/local\/bin\/rgf/' rgf/rgf.py && \
-    python setup.py install && \
-    # PUDB, for local debugging convenience
-    pip install pudb && \
+RUN pip install biopython
+
+#     # Regularized Greedy Forests
+#    cd /usr/local/src && wget https://github.com/fukatani/rgf_python/releases/download/0.2.0/rgf1.2.zip && \
+#    unzip rgf1.2.zip && cd rgf1.2 && make && mv bin/rgf /usr/local/bin && \
+#    cd /usr/local/src && git clone https://github.com/fukatani/rgf_python.git && \
+#    cd rgf_python && sed -i 's/\/opt\/rgf1.2\/bin\/rgf/\/usr\/local\/bin\/rgf/' rgf/rgf.py && \
+#    python setup.py install && \
+#    # PUDB, for local debugging convenience
+#    pip install pudb && \
+
     # Imbalanced-learn
-    cd /usr/local/src && git clone https://github.com/scikit-learn-contrib/imbalanced-learn.git && \
+RUN cd /usr/local/src && git clone https://github.com/scikit-learn-contrib/imbalanced-learn.git && \
     cd imbalanced-learn && python setup.py install && \
     # Convex Optimization library
     # Latest version fails to install, see https://github.com/cvxopt/cvxopt/issues/77
